@@ -8,8 +8,6 @@ int main(){
     test->Add_item(Item("Elephant","animal",75));
     test->Add_item(Item("fish","animal",75));
     test->Add_item(Item("apple","fruit",10));
-    test->Add_item(Item("giraffe","fruit",10));
-    test->Delete_item(1);
 /*
  * fruit apple 10
 feature doulab 20
@@ -18,9 +16,20 @@ animal Elephant 75
 animal fish 75
 fruit cantaloupe 20
 fruit giraffe 10
+ -------------------
+fruit banana 75
+fruit cantaloupe 20
+feature doulab 20
+fruit apple 10
+animal Elephant 75
+animal fish 75
+ fruit giraffe 10
  */
-    test->Display_sort_by_name_descending();
+    test->Add_item(Item("giraffe","fruit",10));
+//    test->Delete_item(1);
+//    test->Display_sort_by_price_ascending();
+
 //    cout<<"\n-------------------\n\n";
-//    test->Display_normal();
+    test->Display_normal();
     delete test;
 }

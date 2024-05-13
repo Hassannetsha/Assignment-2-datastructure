@@ -10,6 +10,7 @@ class Heap_tree : public Trees<t> {
 private:
     int capacity;
     int size;
+    int size_for_heap_sort;
     int index;
     bool MAX;
     int ctn_delete;
@@ -38,42 +39,63 @@ public:
 
     void Display_sort_by_price_descending();
 
+    void Heap_sort_for_display();
 };
 
 template<typename t>
+void Heap_tree<t>::Heap_sort_for_display() {
+    size_for_heap_sort = size;
+    while(size>1){
+        swap(this->arr[1], this->arr[size--]);
+        Modify_Heap_tree(2);
+    }
+    size = size_for_heap_sort;
+}
+
+template<typename t>
 void Heap_tree<t>::Display_sort_by_price_descending() {
-    t *arr2 = new t[size + 1];
-    arr2[0] = Item();
+//    t *arr2 = new t[size + 1];
+//    arr2[0] = Item();
+//    for (int i = 1; i <= size; ++i) {
+//        arr2[i] = this->arr[i];
+//    }
     for (int i = 1; i <= size; ++i) {
-        arr2[i] = this->arr[i];
+        this->arr[i].change_sort_technique();
     }
     for (int i = 1; i <= size; ++i) {
-        arr2[i].change_sort_technique();
+        this->arr[i].descending();
     }
+    Modify_Heap_tree(1);
+//    sort(arr2 + 1, arr2 + size + 1);
+    Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
-        arr2[i].descending();
+        cout << this->arr[i] << '\n';
     }
-    sort(arr2 + 1, arr2 + size + 1);
-    for (int i = 1; i <= size; ++i) {
-        cout << arr2[i] << '\n';
-    }
-    delete[] arr2;
+//    delete[] arr2;
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_price_ascending() {
-    t *arr2 = new t[size + 1];
-    arr2[0] = Item();
+
     for (int i = 1; i <= size; ++i) {
-        arr2[i] = this->arr[i];
+        this->arr[i].change_sort_technique();
+    }
+    Modify_Heap_tree(1);
+//    sort(arr2 + 1, arr2 + size + 1);
+
+    Heap_sort_for_display();
+    if(!MAX){
+        t *arr2 = new t[size + 1];
+        for (int i = 1,j = size; i <= size; ++i,j--) {
+            arr2[i] = this->arr[j];
+        }
+        delete[] this->arr;
+        this->arr = arr2;
     }
     for (int i = 1; i <= size; ++i) {
-        arr2[i].change_sort_technique();
+        cout << this->arr[i] << '\n';
     }
-    sort(arr2 + 1, arr2 + size + 1);
-    for (int i = 1; i <= size; ++i) {
-        cout << arr2[i] << '\n';
-    }/*
+    /*
  *
     fruit giraffe 10
     animal Elephant 75
@@ -83,38 +105,42 @@ void Heap_tree<t>::Display_sort_by_price_ascending() {
     fruit apple 10
     fruit banana 75
  */
-    delete[] arr2;
+//    delete[] arr2;
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_descending() {
-    t *arr2 = new t[size + 1];
-    arr2[0] = Item();
+//    t *arr2 = new t[size + 1];
+//    arr2[0] = Item();
+//    for (int i = 1; i <= size; ++i) {
+//        arr2[i] = this->arr[i];
+//    }
     for (int i = 1; i <= size; ++i) {
-        arr2[i] = this->arr[i];
+        this->arr[i].descending();
     }
+    Modify_Heap_tree(1);
+//    sort(arr2 + 1, arr2 + size + 1);
+    Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
-        arr2[i].descending();
+        cout << this->arr[i] << '\n';
     }
-    sort(arr2 + 1, arr2 + size + 1);
-    for (int i = 1; i <= size; ++i) {
-        cout << arr2[i] << '\n';
-    }
-    delete[] arr2;
+//    delete[] arr2;
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_ascending() {
-    t *arr2 = new t[size + 1];
-    arr2[0] = Item();
-    for (int i = 1; i <= size; ++i) {
-        arr2[i] = this->arr[i];
+    Heap_sort_for_display();
+    if(!MAX){
+        t *arr2 = new t[size + 1];
+        for (int i = 1,j = size; i <= size; ++i,j--) {
+            arr2[i] = this->arr[j];
+        }
+        delete[] this->arr;
+        this->arr = arr2;
     }
-    sort(arr2 + 1, arr2 + size + 1);
     for (int i = 1; i <= size; ++i) {
-        cout << arr2[i] << '\n';
+        cout << this->arr[i] << '\n';
     }
-    delete[] arr2;
 }
 
 template<typename t>
@@ -129,7 +155,7 @@ bool Heap_tree<t>::check() {
     for (int i = 1; i < size; ++i) {
         if ((this->arr[i] ==
              Item("zzzzzzzzzzzzzzzzzzzz", " ", INT16_MAX) ||
-             this->arr[i] == Item("zzzzzzzzzzzzzzzzzzzz", " ", INT16_MIN)) && i != size) {
+             this->arr[i] == Item("aaaaaaaaaaaaaaaaaaaa", " ", INT16_MIN)) && i != size) {
             return false;
         }
     }
