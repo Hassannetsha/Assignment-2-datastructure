@@ -169,8 +169,9 @@ void Heap_tree<t>::Display_normal() {
 
 template<typename t>
 void Heap_tree<t>::Delete_item(const int &index_to_delete) {
-    if (index_to_delete > size) {
+    if (index_to_delete > size || index_to_delete <= 0) {
         cout << "invalid index\n";
+        exit(0);
     }
     int l = 2 * index_to_delete, r = 2 * index_to_delete + 1;
     if (index_to_delete > size) {
@@ -187,7 +188,7 @@ void Heap_tree<t>::Delete_item(const int &index_to_delete) {
         ctn_delete++;
         if (!MAX) { this->arr[index_to_delete] = Item("zzzzzzzzzzzzzzzzzzzz", " ", INT16_MAX); }
         else {
-            this->arr[index_to_delete] = Item("zzzzzzzzzzzzzzzzzzzz", " ", INT16_MIN);
+            this->arr[index_to_delete] = Item("aaaaaaaaaaaaaaaaaaaa", " ", INT16_MIN);
         }
         if (!check()) {
             swap(this->arr[index_to_delete], this->arr[size]);
