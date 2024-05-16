@@ -3,7 +3,7 @@
 
 #include "Item.h"
 #include "Trees.h"
-#include <bits/stdc++.h>
+#include <cstdint>
 
 template<typename t>
 class Heap_tree : public Trees<t> {
@@ -45,7 +45,7 @@ public:
 template<typename t>
 void Heap_tree<t>::Heap_sort_for_display() {
     size_for_heap_sort = size;
-    while(size>1){
+    while (size > 1) {
         swap(this->arr[1], this->arr[size--]);
         Modify_Heap_tree(2);
     }
@@ -54,24 +54,24 @@ void Heap_tree<t>::Heap_sort_for_display() {
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_price_descending() {
-//    t *arr2 = new t[size + 1];
-//    arr2[0] = Item();
-//    for (int i = 1; i <= size; ++i) {
-//        arr2[i] = this->arr[i];
-//    }
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
     }
     for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending();
+        this->arr[i].descending(true);
     }
     Modify_Heap_tree(1);
-//    sort(arr2 + 1, arr2 + size + 1);
     Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
         cout << this->arr[i] << '\n';
     }
-//    delete[] arr2;
+    for (int i = 1; i <= size; ++i) {
+        this->arr[i].change_sort_technique();
+    }
+    for (int i = 1; i <= size; ++i) {
+        this->arr[i].descending(false);
+    }
+    Modify_Heap_tree(1);
 }
 
 template<typename t>
@@ -80,67 +80,47 @@ void Heap_tree<t>::Display_sort_by_price_ascending() {
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
     }
-    Modify_Heap_tree(1);
-//    sort(arr2 + 1, arr2 + size + 1);
-
-    Heap_sort_for_display();
-    if(!MAX){
-        t *arr2 = new t[size + 1];
-        for (int i = 1,j = size; i <= size; ++i,j--) {
-            arr2[i] = this->arr[j];
-        }
-        delete[] this->arr;
-        this->arr = arr2;
+    for (int i = 1; i <= size; ++i) {
+        this->arr[i].descending(false);
     }
+    Modify_Heap_tree(1);
+    Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
         cout << this->arr[i] << '\n';
     }
-    /*
- *
-    fruit giraffe 10
-    animal Elephant 75
-    animal fish 75
-    fruit cantaloupe 20
-    feature doulab 20
-    fruit apple 10
-    fruit banana 75
- */
-//    delete[] arr2;
+    for (int i = 1; i <= size; ++i) {
+        this->arr[i].change_sort_technique();
+    }
+    Modify_Heap_tree(1);
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_descending() {
-//    t *arr2 = new t[size + 1];
-//    arr2[0] = Item();
-//    for (int i = 1; i <= size; ++i) {
-//        arr2[i] = this->arr[i];
-//    }
     for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending();
+        this->arr[i].descending(true);
     }
     Modify_Heap_tree(1);
-//    sort(arr2 + 1, arr2 + size + 1);
     Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
         cout << this->arr[i] << '\n';
     }
-//    delete[] arr2;
+    for (int i = 1; i <= size; ++i) {
+        this->arr[i].descending(false);
+    }
+    Modify_Heap_tree(1);
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_ascending() {
-    Heap_sort_for_display();
-    if(!MAX){
-        t *arr2 = new t[size + 1];
-        for (int i = 1,j = size; i <= size; ++i,j--) {
-            arr2[i] = this->arr[j];
-        }
-        delete[] this->arr;
-        this->arr = arr2;
+    for (int i = 1; i <= size; ++i) {
+        this->arr[i].descending(false);
     }
+    Modify_Heap_tree(1);
+    Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
         cout << this->arr[i] << '\n';
     }
+    Modify_Heap_tree(1);
 }
 
 template<typename t>
@@ -228,6 +208,7 @@ template<typename t>
 void Heap_tree<t>::Add_item(const t &item) {
     if (size == 0) {
         this->arr[index] = item;
+        !MAX? this->arr[index].descending(true):this->arr[index].descending(false);
         size++;
     } else if (size > capacity) {
         capacity *= 2;
@@ -238,9 +219,11 @@ void Heap_tree<t>::Add_item(const t &item) {
         delete this->arr;
         this->arr = arr2;
         this->arr[++size] = item;
+        !MAX? this->arr[index].descending(true):this->arr[index].descending(false);
         Heap_sort(size);
     } else {
         this->arr[++size] = item;
+        !MAX? this->arr[index].descending(true):this->arr[index].descending(false);
         Heap_sort(size);
     }
 }

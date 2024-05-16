@@ -2,7 +2,7 @@
 #define ASSIGNMENT_2_DATASTRUCTURE_ITEM_H
 
 #include <iostream>
-#include <bits/stdc++.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -30,13 +30,12 @@ public:
 
     bool operator!=(const Item &item);
 
-    void descending();
+    void descending(const bool &yes);
 
     friend ostream &operator<<(ostream &os, const Item &Item_to_print);
 };
 
 Item::Item(const string &Item_name, const string &Category, const double &Price) {
-    reverse = false;
     name = true;
     this->Item_name = Item_name;
     this->Category = Category;
@@ -60,14 +59,18 @@ bool Item::operator<(const Item &item) {
 }
 
 bool Item::operator>(const Item &item) {
-    if (this->name) {
-        string name1 = this->Item_name;
-        string name2 = item.Item_name;
-        transform(name1.begin(), name1.end(), name1.begin(), [](unsigned char c) { return std::tolower(c); });
-        transform(name2.begin(), name2.end(), name2.begin(), [](unsigned char c) { return std::tolower(c); });
-        return name1 > name2;
+    if (reverse) {
+        if (this->name) {
+            string name1 = this->Item_name;
+            string name2 = item.Item_name;
+            transform(name1.begin(), name1.end(), name1.begin(), [](unsigned char c) { return std::tolower(c); });
+            transform(name2.begin(), name2.end(), name2.begin(), [](unsigned char c) { return std::tolower(c); });
+            return name1 > name2;
+        } else {
+            return this->Price > item.Price;
+        }
     } else {
-        return this->Price > item.Price;
+        return this->operator<(item);
     }
 }
 
@@ -113,8 +116,8 @@ void Item::change_sort_technique() {
 }
 
 
-void Item::descending() {
-    reverse ^= 1;
+void Item::descending(const bool &yes) {
+    reverse = yes;
 }
 
 
