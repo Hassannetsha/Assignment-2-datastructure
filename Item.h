@@ -103,7 +103,7 @@ bool Item::operator==(const Item &item) {
 }
 
 ostream &operator<<(ostream &os, const Item &Item_to_print) {
-    os << Item_to_print.Category << " " << Item_to_print.Item_name << " " << Item_to_print.Price;
+    os << "Name: "<< Item_to_print.Item_name << "  "<<" Price: " <<Item_to_print.Price << "     Category: "<< Item_to_print.Category  << "\n" ;
     return os;
 }
 
