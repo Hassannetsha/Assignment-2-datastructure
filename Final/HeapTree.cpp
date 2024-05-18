@@ -12,6 +12,7 @@ HeapTree <t> :: HeapTree (const bool &max)
     arrIndex = 1;
     this->arr = new t[capacity];
     this->max = max;
+    this->Reverse_Max = false;
 }
 
 template <typename t>
@@ -20,10 +21,9 @@ void HeapTree <t> :: addItem (const t &item)
     if (size == 0)
     {
         this->arr[arrIndex] = item;
-        !max? this->arr[arrIndex].descending(true) : this->arr[arrIndex].descending(false);
         size++;
     }
-    else if (size > capacity)
+    else if (size + 1 >= capacity)
     {
         capacity *= 2;
         t* arr2 = new t[capacity];
@@ -34,13 +34,11 @@ void HeapTree <t> :: addItem (const t &item)
         this->arr = new t[capacity];
         this->arr = arr2;
         this->arr[++size] = item;
-        !max? this->arr[arrIndex].descending(true) : this->arr[arrIndex].descending(false);
         heapSort(size);
     }
     else
     {
         this->arr[++size] = item;
-        !max? this->arr[arrIndex].descending(true) : this->arr[arrIndex].descending(false);
         heapSort(size);
     }
 }
@@ -106,7 +104,7 @@ void HeapTree <t> :: heapSort (const int &node)
     this->arr[i] = data;
     if (!max)
     {
-        while (i > 1 && this->arr[i/2] > data)
+        while (i > 1 && data < this->arr[i / 2])
         {
             this->arr[i] = this->arr[i/2];
             i /= 2;
@@ -114,7 +112,7 @@ void HeapTree <t> :: heapSort (const int &node)
     }
     else
     {
-        while (i > 1 && this->arr[i/2] < data)
+        while (i > 1 && data > this->arr[i / 2])
         {
             this->arr[i] = this->arr[i/2];
             i /= 2;
@@ -161,15 +159,21 @@ void HeapTree <t> :: displayNormal()
 template <typename t>
 void HeapTree <t> :: displaySortByNameAscendingly()
 {
-    for (int i = 1; i <= size; i++)
-    {
-        this->arr[i].descending(false);
+    if (!max) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        max ^= 1;
     }
     modifyHeapTree(1);
     heapSortForDisplay();
     for (int i = 1; i <= size; i++)
     {
         cout<<this->arr[i] <<'\n';
+    }
+    if (Reverse_Max) {
+        max ^= 1;
+        Reverse_Max = false;
     }
     modifyHeapTree(1);
 }
@@ -177,9 +181,11 @@ void HeapTree <t> :: displaySortByNameAscendingly()
 template <typename t>
 void HeapTree <t> :: displaySortByNameDescendingly()
 {
-    for (int i = 1; i <= size; i++)
-    {
-        this->arr[i].descending(true);
+    if (max) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        max ^= 1;
     }
     modifyHeapTree(1);
     heapSortForDisplay();
@@ -187,9 +193,9 @@ void HeapTree <t> :: displaySortByNameDescendingly()
     {
         cout<<this->arr[i] <<'\n';
     }
-    for (int i = 1; i <= size; i++)
-    {
-        this->arr[i].descending(false);
+    if (Reverse_Max) {
+        max ^= 1;
+        Reverse_Max = false;
     }
     modifyHeapTree(1);
 }
@@ -197,14 +203,15 @@ void HeapTree <t> :: displaySortByNameDescendingly()
 template <typename t>
 void HeapTree <t>::displaySortByPriceAscendingly()
 {
-
     for (int i = 1; i <= size; i++)
     {
         this->arr[i].changeSortTechnique();
     }
-    for (int i = 1; i <= size; i++)
-    {
-        this->arr[i].descending(false);
+    if (!max) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        max ^= 1;
     }
     modifyHeapTree(1);
     heapSortForDisplay();
@@ -215,6 +222,10 @@ void HeapTree <t>::displaySortByPriceAscendingly()
     for (int i = 1; i <= size; i++)
     {
         this->arr[i].changeSortTechnique();
+    }
+    if (Reverse_Max) {
+        max ^= 1;
+        Reverse_Max = false;
     }
     modifyHeapTree(1);
 }
@@ -226,9 +237,11 @@ void HeapTree <t> :: displaySortByPriceDescendingly()
     {
         this->arr[i].changeSortTechnique();
     }
-    for (int i = 1; i <= size; i++)
-    {
-        this->arr[i].descending(true);
+    if (max) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        max ^= 1;
     }
     modifyHeapTree(1);
     heapSortForDisplay();
@@ -240,9 +253,9 @@ void HeapTree <t> :: displaySortByPriceDescendingly()
     {
         this->arr[i].changeSortTechnique();
     }
-    for (int i = 1; i <= size; i++)
-    {
-        this->arr[i].descending(false);
+    if (Reverse_Max) {
+        max ^= 1;
+        Reverse_Max = false;
     }
     modifyHeapTree(1);
 }

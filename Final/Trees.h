@@ -37,7 +37,7 @@ template <typename t>
 class HeapTree : public Trees <t> {
 private:
     int capacity, size, sizeofHeapSort, arrIndex, ctnDelete;
-    bool max;
+    bool max, Reverse_Max;
 
 public:
     explicit HeapTree (const bool &max);

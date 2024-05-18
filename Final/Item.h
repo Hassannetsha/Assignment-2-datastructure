@@ -11,7 +11,7 @@ class Item {
 private:
     string itemName, category;
     double price;
-    bool name, reverse;
+    bool name;
 
 public:
     Item() = default;
@@ -31,8 +31,6 @@ public:
     bool operator != (const Item &item);
 
     void changeSortTechnique();
-
-    void descending (const bool &yes);
 
     friend ostream& operator << (ostream &os, const Item &item);
 };

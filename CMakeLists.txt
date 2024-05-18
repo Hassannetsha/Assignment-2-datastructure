@@ -15,4 +15,8 @@ add_executable(Assignment_2_datastructure
         main.cpp
         Item.h
         Trees.h
-        Heap_tree.h)
+        Heap_tree.h
+        Final/Item.cpp
+        Final/Item.h
+        Final/HeapTree.cpp
+        Final/A2.cpp)

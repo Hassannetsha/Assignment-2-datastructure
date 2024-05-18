@@ -8,14 +8,10 @@
 template<typename t>
 class Heap_tree : public Trees<t> {
 private:
-    int capacity;
-    int size;
-    int size_for_heap_sort;
-    int index;
-    bool MAX, Reverse_Max;
-    int ctn_delete;
+    int capacity, size, sizeofHeapSort, arrIndex;
+    bool max, Reverse_Max;
 public:
-    explicit Heap_tree(const bool &MAX);
+    explicit Heap_tree(const bool &max);
 
     ~Heap_tree();
 
@@ -44,12 +40,12 @@ public:
 
 template<typename t>
 void Heap_tree<t>::Heap_sort_for_display() {
-    size_for_heap_sort = size;
+    sizeofHeapSort = size;
     while (size > 1) {
         swap(this->arr[1], this->arr[size--]);
         Modify_Heap_tree(2);
     }
-    size = size_for_heap_sort;
+    size = sizeofHeapSort;
 }
 
 template<typename t>
@@ -57,11 +53,11 @@ void Heap_tree<t>::Display_sort_by_price_descending() {
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
     }
-    if (MAX) {
+    if (max) {
         Reverse_Max = true;
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
@@ -72,7 +68,7 @@ void Heap_tree<t>::Display_sort_by_price_descending() {
         this->arr[i].change_sort_technique();
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
         Reverse_Max = false;
     }
     Modify_Heap_tree(1);
@@ -83,11 +79,11 @@ void Heap_tree<t>::Display_sort_by_price_ascending() {
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
     }
-    if (!MAX) {
+    if (!max) {
         Reverse_Max = true;
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
@@ -98,7 +94,7 @@ void Heap_tree<t>::Display_sort_by_price_ascending() {
         this->arr[i].change_sort_technique();
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
         Reverse_Max = false;
     }
     Modify_Heap_tree(1);
@@ -106,11 +102,11 @@ void Heap_tree<t>::Display_sort_by_price_ascending() {
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_descending() {
-    if (MAX) {
+    if (max) {
         Reverse_Max = true;
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
@@ -118,7 +114,7 @@ void Heap_tree<t>::Display_sort_by_name_descending() {
         cout << this->arr[i] << '\n';
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
         Reverse_Max = false;
     }
     Modify_Heap_tree(1);
@@ -126,11 +122,11 @@ void Heap_tree<t>::Display_sort_by_name_descending() {
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_ascending() {
-    if (!MAX) {
+    if (!max) {
         Reverse_Max = true;
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
@@ -138,7 +134,7 @@ void Heap_tree<t>::Display_sort_by_name_ascending() {
         cout << this->arr[i] << '\n';
     }
     if (Reverse_Max) {
-        MAX ^= 1;
+        max ^= 1;
         Reverse_Max = false;
     }
     Modify_Heap_tree(1);
@@ -173,7 +169,7 @@ void Heap_tree<t>::Heap_sort(const int &node_to_sort) {
     int i = node_to_sort;
     t data = this->arr[i];
     this->arr[i] = data;
-    if (!MAX) {
+    if (!max) {
         while (i > 1 && data < this->arr[i / 2]) {
             this->arr[i] = this->arr[i / 2];
             i /= 2;
@@ -204,16 +200,15 @@ void Heap_tree<t>::Delete_item(const int &index_to_delete) {
     if (index_to_delete > size) {
         return;
     }
-    if (l <= size && r <= size && ((this->arr[l] < this->arr[r] && !MAX) || (this->arr[l] > this->arr[r] && MAX))) {
+    if (l <= size && r <= size && ((this->arr[l] < this->arr[r] && !max) || (this->arr[l] > this->arr[r] && max))) {
         swap(this->arr[index_to_delete], this->arr[l]);
         Delete_item(l);
     } else if (l <= size && r <= size &&
-               ((this->arr[l] > this->arr[r] && !MAX) || (this->arr[l] < this->arr[r] && MAX))) {
+               ((this->arr[l] > this->arr[r] && !max) || (this->arr[l] < this->arr[r] && max))) {
         swap(this->arr[index_to_delete], this->arr[r]);
         Delete_item(r);
     } else {
-        ctn_delete++;
-        if (!MAX) { this->arr[index_to_delete] = Item("zzzzzzzzzzzzzzzzzzzz", " ", INT16_MAX); }
+        if (!max) { this->arr[index_to_delete] = Item("zzzzzzzzzzzzzzzzzzzz", " ", INT16_MAX); }
         else {
             this->arr[index_to_delete] = Item("aaaaaaaaaaaaaaaaaaaa", " ", INT16_MIN);
         }
@@ -228,7 +223,7 @@ void Heap_tree<t>::Delete_item(const int &index_to_delete) {
 template<typename t>
 void Heap_tree<t>::Add_item(const t &item) {
     if (size == 0) {
-        this->arr[index] = item;
+        this->arr[arrIndex] = item;
         size++;
     } else if (size > capacity) {
         capacity *= 2;
@@ -247,13 +242,12 @@ void Heap_tree<t>::Add_item(const t &item) {
 }
 
 template<typename t>
-Heap_tree<t>::Heap_tree(const bool &MAX) {
-    ctn_delete = 0;
+Heap_tree<t>::Heap_tree(const bool &max) {
     capacity = 10;
     size = 0;
-    index = 1;
+    arrIndex = 1;
     this->arr = new t[capacity];
-    this->MAX = MAX;
+    this->max = max;
     this->Reverse_Max = false;
 }
 
