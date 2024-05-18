@@ -10,7 +10,7 @@ class Item {
     string Item_name;
     string Category;
     double Price;
-    bool name, reverse;
+    bool name;
 public:
     Item(const string &, const string &, const double &);
 
@@ -30,8 +30,6 @@ public:
 
     bool operator!=(const Item &item);
 
-    void descending(const bool &yes);
-
     friend ostream &operator<<(ostream &os, const Item &Item_to_print);
 };
 
@@ -43,34 +41,26 @@ Item::Item(const string &Item_name, const string &Category, const double &Price)
 }
 
 bool Item::operator<(const Item &item) {
-    if (!reverse) {
-        if (name) {
-            string name1 = this->Item_name;
-            string name2 = item.Item_name;
-            transform(name1.begin(), name1.end(), name1.begin(), [](unsigned char c) { return std::tolower(c); });
-            transform(name2.begin(), name2.end(), name2.begin(), [](unsigned char c) { return std::tolower(c); });
-            return name1 < name2;
-        } else {
-            return this->Price < item.Price;
-        }
+    if (name) {
+        string name1 = this->Item_name;
+        string name2 = item.Item_name;
+        transform(name1.begin(), name1.end(), name1.begin(), [](unsigned char c) { return std::tolower(c); });
+        transform(name2.begin(), name2.end(), name2.begin(), [](unsigned char c) { return std::tolower(c); });
+        return name1 < name2;
     } else {
-        return this->operator>(item);
+        return this->Price < item.Price;
     }
 }
 
 bool Item::operator>(const Item &item) {
-    if (reverse) {
-        if (this->name) {
-            string name1 = this->Item_name;
-            string name2 = item.Item_name;
-            transform(name1.begin(), name1.end(), name1.begin(), [](unsigned char c) { return std::tolower(c); });
-            transform(name2.begin(), name2.end(), name2.begin(), [](unsigned char c) { return std::tolower(c); });
-            return name1 > name2;
-        } else {
-            return this->Price > item.Price;
-        }
+    if (this->name) {
+        string name1 = this->Item_name;
+        string name2 = item.Item_name;
+        transform(name1.begin(), name1.end(), name1.begin(), [](unsigned char c) { return std::tolower(c); });
+        transform(name2.begin(), name2.end(), name2.begin(), [](unsigned char c) { return std::tolower(c); });
+        return name1 > name2;
     } else {
-        return this->operator<(item);
+        return this->Price > item.Price;
     }
 }
 
@@ -115,10 +105,6 @@ void Item::change_sort_technique() {
     name ^= 1;
 }
 
-
-void Item::descending(const bool &yes) {
-    reverse = yes;
-}
 
 
 #endif

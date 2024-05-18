@@ -12,7 +12,7 @@ private:
     int size;
     int size_for_heap_sort;
     int index;
-    bool MAX;
+    bool MAX, Reverse_Max;
     int ctn_delete;
 public:
     explicit Heap_tree(const bool &MAX);
@@ -57,8 +57,11 @@ void Heap_tree<t>::Display_sort_by_price_descending() {
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
     }
-    for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending(true);
+    if (MAX) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        MAX ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
@@ -68,20 +71,23 @@ void Heap_tree<t>::Display_sort_by_price_descending() {
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
     }
-    for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending(false);
+    if (Reverse_Max) {
+        MAX ^= 1;
+        Reverse_Max = false;
     }
     Modify_Heap_tree(1);
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_price_ascending() {
-
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
     }
-    for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending(false);
+    if (!MAX) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        MAX ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
@@ -90,35 +96,50 @@ void Heap_tree<t>::Display_sort_by_price_ascending() {
     }
     for (int i = 1; i <= size; ++i) {
         this->arr[i].change_sort_technique();
+    }
+    if (Reverse_Max) {
+        MAX ^= 1;
+        Reverse_Max = false;
     }
     Modify_Heap_tree(1);
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_descending() {
-    for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending(true);
+    if (MAX) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        MAX ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
         cout << this->arr[i] << '\n';
     }
-    for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending(false);
+    if (Reverse_Max) {
+        MAX ^= 1;
+        Reverse_Max = false;
     }
     Modify_Heap_tree(1);
 }
 
 template<typename t>
 void Heap_tree<t>::Display_sort_by_name_ascending() {
-    for (int i = 1; i <= size; ++i) {
-        this->arr[i].descending(false);
+    if (!MAX) {
+        Reverse_Max = true;
+    }
+    if (Reverse_Max) {
+        MAX ^= 1;
     }
     Modify_Heap_tree(1);
     Heap_sort_for_display();
     for (int i = 1; i <= size; ++i) {
         cout << this->arr[i] << '\n';
+    }
+    if (Reverse_Max) {
+        MAX ^= 1;
+        Reverse_Max = false;
     }
     Modify_Heap_tree(1);
 }
@@ -153,12 +174,12 @@ void Heap_tree<t>::Heap_sort(const int &node_to_sort) {
     t data = this->arr[i];
     this->arr[i] = data;
     if (!MAX) {
-        while (i > 1 && this->arr[i / 2] > data) {
+        while (i > 1 && data < this->arr[i / 2]) {
             this->arr[i] = this->arr[i / 2];
             i /= 2;
         }
     } else {
-        while (i > 1 && this->arr[i / 2] < data) {
+        while (i > 1 && data > this->arr[i / 2]) {
             this->arr[i] = this->arr[i / 2];
             i /= 2;
         }
@@ -208,7 +229,6 @@ template<typename t>
 void Heap_tree<t>::Add_item(const t &item) {
     if (size == 0) {
         this->arr[index] = item;
-        !MAX? this->arr[index].descending(true):this->arr[index].descending(false);
         size++;
     } else if (size > capacity) {
         capacity *= 2;
@@ -219,11 +239,9 @@ void Heap_tree<t>::Add_item(const t &item) {
         delete this->arr;
         this->arr = arr2;
         this->arr[++size] = item;
-        !MAX? this->arr[index].descending(true):this->arr[index].descending(false);
         Heap_sort(size);
     } else {
         this->arr[++size] = item;
-        !MAX? this->arr[index].descending(true):this->arr[index].descending(false);
         Heap_sort(size);
     }
 }
@@ -236,6 +254,7 @@ Heap_tree<t>::Heap_tree(const bool &MAX) {
     index = 1;
     this->arr = new t[capacity];
     this->MAX = MAX;
+    this->Reverse_Max = false;
 }
 
 #endif

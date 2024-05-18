@@ -11,9 +11,9 @@ int main() {
     test->Add_item(Item("fish", "animal", 75));
     test->Add_item(Item("apple", "fruit", 10));
     test->Add_item(Item("giraffe", "fruit", 10));
-//    test->Delete_item(1);
     test->Display_sort_by_name_descending();
-    cout<<"\n-------------------\n\n";
+    test->Delete_item(1);
+    cout<<"\n-----------------------------\n\n";
     test->Display_normal();
     delete test;
 }
