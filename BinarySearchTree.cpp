@@ -131,28 +131,70 @@ void BinarySearchTree <t> :: deleteItem (const int &index)
     }
 
     t item = this->arr[index-1];
-    node* current = nameRoot;
-    while (current != nullptr)
+    node* current;
+    node* prev;
+    if (nameRoot->data == item)
     {
-        if (current->data == item)
-            removeNode(current);
-        else if (current->data < item)
-            current = current->RChild;
+        removeNode(nameRoot);
+    }
+    else
+    {
+        prev = nameRoot;
+        if (nameRoot->data < item)
+            current = nameRoot->RChild;
         else
-            current = current->LChild;
+            current = nameRoot->LChild;
+
+        while (current != nullptr)
+        {
+            if (current->data == item)
+                break;
+            else
+            {
+                prev = current;
+                if (current->data < item)
+                    current = current->RChild;
+                else
+                    current = current->LChild;
+            }
+        }
+        if (prev->data < item)
+            removeNode(prev->RChild);
+        else
+            removeNode(prev->LChild);
     }
 
     t item2 = item;
     item2.changeSortTechnique();
-    current = priceRoot;
-    while (current != nullptr)
+    if (priceRoot->data == item2)
     {
-        if (current->data == item2)
-            removeNode(current);
-        else if (current->data < item2)
-            current = current->RChild;
+        removeNode(priceRoot);
+    }
+    else
+    {
+        prev = priceRoot;
+        if (priceRoot->data < item2)
+            current = priceRoot->RChild;
         else
-            current = current->LChild;
+            current = priceRoot->LChild;
+
+        while (current != nullptr)
+        {
+            if (current->data == item2)
+                break;
+            else
+            {
+                prev = current;
+                if (current->data < item2)
+                    current = current->RChild;
+                else
+                    current = current->LChild;
+            }
+        }
+        if (prev->data < item2)
+            removeNode(prev->RChild);
+        else
+            removeNode(prev->LChild);
     }
 
     for (int i = index-1; i < size-1; i++)
